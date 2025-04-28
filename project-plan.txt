@@ -1,0 +1,23 @@
+Creating a todo-app:
+
+Plan: 
+    - List of menu:
+        * Add
+        * Update
+        * Search
+        * List
+        * Delete
+    - Menu will be in loop, asking user if they want to continue
+    - create a package for all the functionality
+        * AddTask(task []Tasks)
+        * UpdateTask(task []Tasks)
+        * SearchTask(task []Tasks)
+        * ListAllTask(task []Tasks)
+        * DeleteATask(task []Tasks, id int)
+        * ReadFile 
+        * WriteInJsonFile
+
+
+- Current issue encounter in program:
+    * once I deleted the task, and try to add new task all the previous tasks were added back to the ReadFile
+    * task id increament is not increamenting properly. 
