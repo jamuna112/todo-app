@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 )
 
@@ -17,13 +18,24 @@ type Tasks struct {
 var tasks []Tasks
 var count int = 0
 
+/*
+ add
+ ask user for topic and description as soon as user adds it display it
+ id topic description
+ 1  Golang learn file reading writing project
+ Todo added successfully
+*/
+
 func AddTask(taskList []Tasks) []Tasks {
 
 	var task Tasks
-	reader := bufio.NewReader(os.Stdin)
-	count++
+	id, _ := ListAllTask(taskList)
 
-	task.Id = count
+	reader := bufio.NewReader(os.Stdin)
+
+	max := slices.Max(id)
+	task.Id = max + 1
+	fmt.Printf("Id: %v, max: %d\n", id, max)
 	fmt.Print("Topic: ")
 	task.Topic, _ = reader.ReadString('\n')
 	task.Topic = strings.TrimSpace(task.Topic)
@@ -35,6 +47,25 @@ func AddTask(taskList []Tasks) []Tasks {
 
 	return taskList
 }
+
+// func AddTask(taskList []Tasks) []Tasks {
+
+// 	var task Tasks
+// 	reader := bufio.NewReader(os.Stdin)
+// 	count++
+
+// 	task.Id = count
+// 	fmt.Print("Topic: ")
+// 	task.Topic, _ = reader.ReadString('\n')
+// 	task.Topic = strings.TrimSpace(task.Topic)
+// 	fmt.Print("Description: ")
+// 	task.Description, _ = reader.ReadString('\n')
+// 	task.Description = strings.TrimSpace(task.Description)
+// 	taskList = append(taskList, task)
+// 	fmt.Printf("Successfully added task id: %d - %v\n", task.Id, task)
+
+// 	return taskList
+// }
 
 func UpdateJsonRecord(updateTask []Tasks, id int, topic, description string) []Tasks {
 
@@ -64,18 +95,19 @@ func DeleteTask(filename string, id int) []Tasks {
 	return newTasks
 }
 
-func SearchByID(tasks []Tasks, id int) {
+func SearchByID(tasks []Tasks, searchString string) {
 
 	found := false
 	for _, v := range tasks {
-		if v.Id == id {
+		if strings.ToLower(v.Topic) == strings.ToLower(searchString) || strings.Contains(strings.ToLower((v.Description)), strings.ToLower(searchString)) {
 			fmt.Printf("Id: %v, topic: %s, description: %s\n", v.Id, v.Topic, v.Description)
 			found = true
 			break
 		}
+
 	}
 	if !found {
-		fmt.Printf("%d id not found in the tasks\n", id)
+		fmt.Printf("%s string not found in the tasks\n", searchString)
 
 	}
 
@@ -87,6 +119,18 @@ func ReadFile(filename string) []Tasks {
 
 	if err != nil {
 		fmt.Printf("error reading file %v", err)
+
+		//creating a file
+		file, err := os.Create(filename)
+
+		if err != nil {
+			fmt.Println("error creating file", err)
+			return nil
+		}
+		defer file.Close()
+		fmt.Print("File created ", filename)
+		//new file created
+
 		return nil
 	}
 
@@ -114,8 +158,26 @@ func WriteJsonRecord(filename string, todo []Tasks) []Tasks {
 	return todo
 }
 
-func ListAllTask(task []Tasks) {
-	for i, v := range task {
-		fmt.Printf("s.no: %v. Topic: %s, Description: %s\n", (i + 1), v.Topic, v.Description)
+func ListAllTask(task []Tasks) ([]int, []string) {
+	var ids []int
+	var displayList []string
+	var displayMsg string
+	for _, v := range task {
+		displayMsg = fmt.Sprintf("s.no: %v. Topic: %s, Description: %s", v.Id, v.Topic, v.Description)
+		displayList = append(displayList, displayMsg)
+
+		ids = append(ids, v.Id)
 	}
+	return ids, displayList
+}
+
+func DisplayAllListOfTask(task []Tasks) {
+	fmt.Println("====================================")
+	fmt.Println("List of all tasks")
+	fmt.Println("====================================")
+	_, msg := ListAllTask(task)
+	for _, v := range msg {
+		fmt.Println(v)
+	}
+	fmt.Println("====================================")
 }

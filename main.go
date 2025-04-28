@@ -28,7 +28,7 @@ func main() {
 
 		filename := "tasks.json"
 		var t []internal.Tasks
-		data := internal.ReadFile(filename) // read from the file
+		data := internal.ReadFile(filename)
 
 		switch choice {
 		case 1:
@@ -38,6 +38,8 @@ func main() {
 		case 2:
 			var taskId int
 
+			internal.DisplayAllListOfTask(data)
+			fmt.Println("====================================")
 			fmt.Print("Please enter id you want to update: ")
 			fmt.Scanf("%d", &taskId)
 			fmt.Print("Update topic: ")
@@ -48,33 +50,32 @@ func main() {
 			description = strings.TrimSpace(description)
 			t = internal.UpdateJsonRecord(data, taskId, topic, description)
 			internal.WriteJsonRecord(filename, t)
-			fmt.Printf("update data %v\n", t)
+			fmt.Printf("update data")
+			internal.DisplayAllListOfTask(data)
 
 		case 3:
-			// Delete task
 			var deleteId int
+			internal.DisplayAllListOfTask(data)
 			fmt.Print("Enter Id you want to delete?")
 			fmt.Scanf("%d", &deleteId)
 			t = internal.DeleteTask(filename, deleteId)
 			internal.WriteJsonRecord(filename, t)
-			fmt.Printf("After deletion remaining data %v\n", t)
+			fmt.Println("After deletion remaining data")
+			data = internal.ReadFile(filename)
+			internal.DisplayAllListOfTask(data)
 
 		case 4:
-			//Search task
-			var searchId int
-			fmt.Print("Enter Id you want to search?")
-			fmt.Scanf("%d", &searchId)
+
+			var searchString string
+			fmt.Print("Enter your search string: ")
+			fmt.Scanf("%s", &searchString)
 			data = internal.ReadFile(filename)
 			fmt.Println("====================================")
-			internal.SearchByID(data, searchId)
+			internal.SearchByID(data, searchString)
 			fmt.Println("====================================")
 
 		case 5:
-			fmt.Println("====================================")
-			fmt.Println("List of all tasks")
-			fmt.Println("====================================")
-			internal.ListAllTask(data)
-			fmt.Println("====================================")
+			internal.DisplayAllListOfTask(data)
 		case 6:
 			fmt.Println("Thank you choosing TODO APP!")
 			return

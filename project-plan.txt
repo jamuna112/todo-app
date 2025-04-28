@@ -21,3 +21,64 @@ Plan:
 - Current issue encounter in program:
     * once I deleted the task, and try to add new task all the previous tasks were added back to the ReadFile
     * task id increament is not increamenting properly. 
+
+
+    {
+  "Id": 1,
+  "Topic": "Golang",
+  "Description": "learn file reading writing project"
+ },
+ {
+  "Id": 2,
+  "Topic": "brisk walk",
+  "Description": "walk for 3 miles in a day"
+ },
+  {
+  "Id": 3,
+  "Topic": "walk",
+  "Description": "long walk for 5 miles in a day"
+ },
+
+ add
+ ask user for topic and description as soon as user adds it display it
+ id topic description
+ 1  Golang learn file reading writing project
+ Todo added successfully
+
+ Update
+ id topic description
+ 1  Golang learn file reading writing project
+ 2 brisk walk walk for 3 miles in a day
+ 3 walk long walk for 5 miles in a day
+ which id you want to update? 1
+ display
+ ask user for topic and description as soon as user adds it display it
+ id topic description
+ 1  Golang learn file reading writing project
+ Todo updated id # successfully
+
+ Search
+ enter your search string
+ search complete json for the given string in topic and description
+ eg: search string = Golang
+ id topic description
+ 1  Golang learn file reading writing project
+
+ List
+ Show all data
+ id topic description
+ 1  Golang learn file reading writing project
+ 2 brisk walk walk for 3 miles in a day
+ 3 walk long walk for 5 miles in a day
+
+ Delete
+id topic description
+ 1  Golang learn file reading writing project
+ 2 brisk walk walk for 3 miles in a day
+ 3 walk long walk for 5 miles in a day
+ which id you want to delete? 1
+ display remaining tasks
+ id topic description
+ 2 brisk walk walk for 3 miles in a day
+ 3 walk long walk for 5 miles in a day
+ Todo deleted id # successfully
